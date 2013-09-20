@@ -2,12 +2,14 @@
 #include <libgen.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <unistd.h>
 
 std::string ProgramName;
 
 void Die(std::string msg)
 {
 	std::cerr << ProgramName << ": error: " << msg << std::endl;
+	_exit(1);
 }
 
 int main(int argc, char** argv)
