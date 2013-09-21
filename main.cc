@@ -13,7 +13,7 @@ int main(int argc, char** argv)
   listener.Listen();
 
   auto client = listener.AcceptClient();
-  std::cout << "Client connected" << std::endl;
+  std::cout << "Client connected: " << client.GetAddress() << std::endl;
 
   client.Write("Hello!");
   std::cout << client.Read(0x1000) << std::endl;
