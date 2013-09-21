@@ -1,5 +1,6 @@
 #include "tcp_listener.h"
 
+#include <arpa/inet.h>
 #include <boost/lexical_cast.hpp>
 #include <stdexcept>
 #include <memory>
@@ -36,12 +37,14 @@ void TcpListener::Listen()
 
 RemoteClient TcpListener::AcceptClient()
 {
-  int fd = accept(_fd, nullptr, nullptr);
+  sockaddr_in result;
+  socklen_t size = sizeof(result);
+  int fd = accept(_fd, (sockaddr*)&result, &size);
 
   if (fd == -1)
     throw std::runtime_error("Failed to accept client socket");
 
-  return RemoteClient(fd);
+  return RemoteClient(fd, inet_ntoa(result.sin_addr));
 }
 
 struct addrinfo TcpListener::GetHints()

@@ -8,13 +8,19 @@
 namespace ymarcov {
 namespace net {
 
-RemoteClient::RemoteClient(int fd)
+RemoteClient::RemoteClient(int fd, std::string address)
   : _fd(fd)
+  , _address(std::move(address))
 {}
 
 RemoteClient::~RemoteClient()
 {
   shutdown(_fd, SHUT_RDWR);
+}
+
+const std::string& RemoteClient::GetAddress() const
+{
+	return _address;
 }
 
 size_t RemoteClient::Write(const std::string& data)
