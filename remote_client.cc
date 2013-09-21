@@ -10,39 +10,33 @@ namespace net {
 
 RemoteClient::RemoteClient(int fd)
   : _fd(fd)
-{
-}
+{}
 
 RemoteClient::~RemoteClient()
 {
   shutdown(_fd, SHUT_RDWR);
 }
 
-size_t RemoteClient::WriteLine(const std::string& data)
+size_t RemoteClient::Write(const std::string& data)
 {
   auto bytesWritten = write(_fd, data.data(), data.size());
 
   if (bytesWritten == -1)
     throw std::runtime_error("Failed to write data to client");
 
-  if (write(_fd, "\n", 1) == -1)
-    throw std::runtime_error("Failed to write line terminator to client");
-
-  return ++bytesWritten;
+  return bytesWritten;
 }
 
-// TODO Actually read until a line-terminator is found
-std::string RemoteClient::ReadLine()
+std::string RemoteClient::Read(size_t bytes)
 {
-  static const size_t bufferSize = 0x1000;
-  std::unique_ptr<char[]> buffer(new char[bufferSize]);
+  std::unique_ptr<char[]> buffer(new char[bytes]);
 
-  auto bytesRead = read(_fd, buffer.get(), bufferSize);
+  auto bytesRead = read(_fd, buffer.get(), bytes);
 
   if (bytesRead == -1)
     throw std::runtime_error("Failed to read data from client");
 
-  return std::string(buffer.release(), bytesRead);
+  return std::string(buffer.get(), bytesRead);
 }
 
 } // namespace net

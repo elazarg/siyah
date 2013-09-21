@@ -11,8 +11,8 @@ public:
   RemoteClient(int fd);
   ~RemoteClient();
 
-  size_t WriteLine(const std::string&);
-  std::string ReadLine();
+  size_t Write(const std::string&);
+  std::string Read(size_t bytes);
 
 private:
   int _fd;

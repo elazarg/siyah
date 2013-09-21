@@ -15,8 +15,8 @@ int main(int argc, char** argv)
   auto client = listener.AcceptClient();
   std::cout << "Client connected" << std::endl;
 
-  client.WriteLine("Hello!");
-  std::cout << client.ReadLine() << std::endl;
+  client.Write("Hello!");
+  std::cout << client.Read(0x1000) << std::endl;
 
   return 0;
 }
