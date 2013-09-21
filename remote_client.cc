@@ -5,6 +5,9 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+namespace ymarcov {
+namespace net {
+
 RemoteClient::RemoteClient(int fd)
   : _fd(fd)
 {
@@ -41,3 +44,6 @@ std::string RemoteClient::ReadLine()
 
   return std::string(buffer.release(), bytesRead);
 }
+
+} // namespace net
+} // namespace ymarcov

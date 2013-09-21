@@ -1,6 +1,10 @@
 #pragma once
 
 #include "remote_client.h"
+#include <netdb.h>
+
+namespace ymarcov {
+namespace net {
 
 class TcpListener
 {
@@ -18,3 +22,6 @@ private:
   int _port;
   int _fd;
 };
+
+} // namespace net
+} // namespace ymarcov

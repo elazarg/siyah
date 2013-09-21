@@ -7,6 +7,9 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 
+namespace ymarcov {
+namespace net {
+
 TcpListener::TcpListener(int port)
   : _port(port)
 {
@@ -73,3 +76,6 @@ void TcpListener::Bind()
   if (bind(_fd, result->ai_addr, result->ai_addrlen))
     throw std::runtime_error("Failed to bind socket to the specified port");
 }
+
+} // namespace net
+} // namespace ymarcov

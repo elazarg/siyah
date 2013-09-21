@@ -2,6 +2,9 @@
 
 #include <string>
 
+namespace ymarcov {
+namespace net {
+
 class RemoteClient
 {
 public:
@@ -14,3 +17,6 @@ public:
 private:
   int _fd;
 };
+
+} // namespace net
+} // namespace ymarcov
