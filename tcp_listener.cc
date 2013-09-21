@@ -62,7 +62,7 @@ void TcpListener::Bind()
   {
     auto hints = GetHints();
 
-    if (getaddrinfo("localhost", boost::lexical_cast<std::string>(_port).c_str(), &hints, &result))
+    if (getaddrinfo(nullptr, boost::lexical_cast<std::string>(_port).c_str(), &hints, &result))
       throw std::runtime_error("Failed to resolve host");
   }
 
