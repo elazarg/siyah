@@ -20,7 +20,7 @@ RemoteClient::~RemoteClient()
 
 const std::string& RemoteClient::GetAddress() const
 {
-	return _address;
+  return _address;
 }
 
 size_t RemoteClient::Write(const std::string& data)
