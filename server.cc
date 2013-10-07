@@ -10,6 +10,23 @@
 
 std::string ProgramName;
 
+class RemoteClient
+{
+public:
+  RemoteClient(int fd)
+    : _fd(fd)
+  {
+  }
+
+  ~RemoteClient()
+  {
+    shutdown(_fd, SHUT_RDWR);
+  }
+
+private:
+  int _fd;
+};
+
 class TcpListener
 {
 public:
@@ -37,14 +54,14 @@ public:
       throw std::runtime_error("Failed to start listening");
   }
 
-  int AcceptClient()
+  RemoteClient AcceptClient()
   {
     int fd = accept(_fd, nullptr, nullptr);
 
     if (fd == -1)
       throw std::runtime_error("Failed to accept client socket");
 
-    return fd;
+    return RemoteClient(fd);
   }
 
 private:
@@ -92,7 +109,7 @@ int main(int argc, char** argv)
   TcpListener listener(1334);
   listener.Listen();
 
-  int client = listener.AcceptClient();
+  auto client = listener.AcceptClient();
   std::cout << "Client connected" << std::endl;
 
   return 0;
