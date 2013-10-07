@@ -56,16 +56,21 @@ class TcpListener
 
     void Bind()
     {
-      std::unique_ptr<struct addrinfo> address;
+      struct addrinfo* bla;
       struct addrinfo* result;
       auto hints = GetHints();
 
       if (getaddrinfo("localhost", boost::lexical_cast<std::string>(_port).c_str(), &hints, &result))
         throw std::runtime_error("Failed to resolve host");
 
-      address.reset(result);
+      struct ScopedAddrInfo
+      {
+        ScopedAddrInfo(struct addrinfo* ai) : _ai(ai) {}
+        ~ScopedAddrInfo() { freeaddrinfo(_ai); }
+        struct addrinfo* _ai;
+      } scopedAddrInfo(result);
 
-      if (bind(_fd, address->ai_addr, address->ai_addrlen))
+      if (bind(_fd, result->ai_addr, result->ai_addrlen))
         throw std::runtime_error("Failed to bind socket to the specified port");
     }
 
