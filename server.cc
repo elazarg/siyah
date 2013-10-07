@@ -139,5 +139,8 @@ int main(int argc, char** argv)
   auto client = listener.AcceptClient();
   std::cout << "Client connected" << std::endl;
 
+  client.WriteLine("Hello!");
+  std::cout << client.ReadLine() << std::endl;
+
   return 0;
 }
