@@ -56,12 +56,14 @@ class TcpListener
 
     void Bind()
     {
-      struct addrinfo* bla;
       struct addrinfo* result;
-      auto hints = GetHints();
 
-      if (getaddrinfo("localhost", boost::lexical_cast<std::string>(_port).c_str(), &hints, &result))
-        throw std::runtime_error("Failed to resolve host");
+      {
+        auto hints = GetHints();
+
+        if (getaddrinfo("localhost", boost::lexical_cast<std::string>(_port).c_str(), &hints, &result))
+          throw std::runtime_error("Failed to resolve host");
+      }
 
       struct ScopedAddrInfo
       {
