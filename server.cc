@@ -26,6 +26,11 @@ public:
     Bind();
   }
 
+  ~TcpListener()
+  {
+    shutdown(_fd, SHUT_RDWR);
+  }
+
   void Listen()
   {
     if (listen(_fd, SOMAXCONN))
