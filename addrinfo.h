@@ -12,6 +12,7 @@ struct Addrinfo : addrinfo {
 		ai_family = AF_INET;
 		ai_socktype = SOCK_STREAM;
 		ai_flags = AI_PASSIVE;
+		ai_protocol = IPPROTO_TCP;
 	}
 
 	explicit Addrinfo(int port) {
