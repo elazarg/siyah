@@ -1,6 +1,7 @@
-#pragma once
+#ifndef __REMOTE_CLIENT
+#define __REMOTE_CLIENT
 
-#include <string>
+#include "default_include.h"
 
 namespace ymarcov {
 namespace net {
@@ -8,17 +9,18 @@ namespace net {
 class RemoteClient
 {
 public:
-  RemoteClient(int fd, std::string address);
+  RemoteClient(pair<int, string> fd_address);
   ~RemoteClient();
 
-  const std::string& GetAddress() const;
-  size_t Write(const std::string&);
-  std::string Read(size_t bytes);
+  const string& getAddress() const;
+  size_t write(const string&);
+  string read(size_t bytes);
 
-private:
-  std::string _address;
-  int _fd;
+private:  int _fd;
+private:  string _address;
 };
 
 } // namespace net
 } // namespace ymarcov
+
+#endif

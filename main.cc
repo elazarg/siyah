@@ -1,16 +1,20 @@
-#include "tcp_listener.h"
 #include <iostream>
 
-int main(int argc, char** argv)
-{
-  ymarcov::net::TcpListener listener(1334);
-  listener.Listen();
+#include "tcp_listener.h"
+#include "remote_client.h"
 
-  auto client = listener.AcceptClient();
-  std::cout << "Client connected: " << client.GetAddress() << std::endl;
+using ymarcov::net::TcpListener;
+using ymarcov::net::RemoteClient;
 
-  client.Write("Hello!");
-  std::cout << client.Read(0x1000) << std::endl;
+int main(int argc, char** argv) {
+	TcpListener listener(1334);
+	listener.listen();
 
-  return 0;
+	RemoteClient client { listener.accept() };
+	std::cout << "Client connected: " << client.getAddress() << std::endl;
+
+	client.write("Hello!");
+	std::cout << client.read(0x1000) << std::endl;
+
+	return 0;
 }

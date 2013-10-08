@@ -1,27 +1,24 @@
-#pragma once
+#ifndef __TCP_LISTENER__
+#define __TCP_LISTENER__
 
 #include "remote_client.h"
-#include <netdb.h>
 
 namespace ymarcov {
 namespace net {
 
-class TcpListener
-{
+class TcpListener {
 public:
-  TcpListener(int port);
-  ~TcpListener();
+	TcpListener(int port);
+	~TcpListener();
 
-  void Listen();
-  RemoteClient AcceptClient();
+	void listen();
+	pair<int, string> accept();
 
 private:
-  static struct addrinfo GetHints();
-  void Bind();
-
-  int _port;
-  int _fd;
+	int _fd;
 };
 
 } // namespace net
 } // namespace ymarcov
+
+#endif

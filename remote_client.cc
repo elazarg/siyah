@@ -5,44 +5,41 @@
 #include <sys/socket.h>
 #include <unistd.h>
 
+#include <tuple>
 namespace ymarcov {
 namespace net {
 
-RemoteClient::RemoteClient(int fd, std::string address)
-  : _fd(fd)
-  , _address(std::move(address))
-{}
-
-RemoteClient::~RemoteClient()
+RemoteClient::RemoteClient(std::pair<int, string> fd_address) :
+		_fd{fd_address.first}, _address{fd_address.second}
 {
-  shutdown(_fd, SHUT_RDWR);
 }
 
-const std::string& RemoteClient::GetAddress() const
-{
-  return _address;
+RemoteClient::~RemoteClient() {
+	shutdown(_fd, SHUT_RDWR);
 }
 
-size_t RemoteClient::Write(const std::string& data)
-{
-  auto bytesWritten = write(_fd, data.data(), data.size());
-
-  if (bytesWritten == -1)
-    throw std::runtime_error("Failed to write data to client");
-
-  return bytesWritten;
+const string& RemoteClient::getAddress() const {
+	return _address;
 }
 
-std::string RemoteClient::Read(size_t bytes)
-{
-  std::unique_ptr<char[]> buffer(new char[bytes]);
+size_t RemoteClient::write(const string& data) {
+	auto bytesWritten = ::write(_fd, data.data(), data.size());
 
-  auto bytesRead = read(_fd, buffer.get(), bytes);
+	if (bytesWritten == -1)
+		throw runtime_error("Failed to write data to client");
 
-  if (bytesRead == -1)
-    throw std::runtime_error("Failed to read data from client");
+	return bytesWritten;
+}
 
-  return std::string(buffer.get(), bytesRead);
+string RemoteClient::read(size_t bytes) {
+	unique_ptr<char[]> buffer{new char[bytes]};
+
+	auto bytesRead = ::read(_fd, buffer.get(), bytes);
+
+	if (bytesRead == -1)
+		throw runtime_error("Failed to read data from client");
+
+	return string(buffer.get(), bytesRead);
 }
 
 } // namespace net
