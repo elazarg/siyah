@@ -6,16 +6,12 @@ using std::string;
 
 #include <stdexcept>
 struct ConnectionError : std::runtime_error {
-	ConnectionError(string s) : std::runtime_error(s) { };
+	using runtime_error::runtime_error;
 };
 
 #include <memory>
 using std::move;
 using std::unique_ptr;
-
-#include <tuple>
-using std::pair;
-using std::make_pair;
 
 #include <boost/lexical_cast.hpp>
 inline const char* itoa(int i) {
