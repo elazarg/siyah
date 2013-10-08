@@ -3,7 +3,6 @@
 
 #include <netdb.h>
 
-#include <boost/lexical_cast.hpp>
 namespace {
 
 struct Addrinfo : addrinfo {
@@ -27,8 +26,7 @@ private:
 const Addrinfo hints;
 
 Addrinfo::Addrinfo(int port) {
-	if (getaddrinfo(nullptr, boost::lexical_cast<string>(port).c_str(), &hints,
-			&result))
+	if (getaddrinfo(nullptr, itoa(port), &hints, &result))
 		throw ConnectionError("Failed to resolve host");
 	addrinfo::operator=(*result);
 }

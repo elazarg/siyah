@@ -17,4 +17,7 @@ using std::unique_ptr;
 using std::pair;
 using std::make_pair;
 
+#include <boost/lexical_cast.hpp>
+const auto itoa = [](int i){ return boost::lexical_cast<string>(i).c_str(); };
+
 #endif

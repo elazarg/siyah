@@ -10,7 +10,7 @@ struct Listener {
 	virtual void listen() = 0;
 	virtual Accepted accept() = 0;
 
-	virtual ~Listener() {};
+	virtual ~Listener() = 0;
 };
 
 struct TcpListener final : Listener {
