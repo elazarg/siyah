@@ -3,24 +3,24 @@
 
 #include "default_include.h"
 
-namespace ymarcov {
-namespace net {
+namespace newnet {
 
-class RemoteClient
-{
-public:
-  RemoteClient(pair<int, string> fd_address);
-  ~RemoteClient();
+struct Accepted {
+	const int fd;
+	const string address;
+};
 
-  const string& getAddress() const;
-  size_t write(const string&);
-  string read(size_t bytes);
+struct RemoteClient final : private Accepted {
+	using Accepted::Accepted;
+	RemoteClient(const Accepted& a) : Accepted(a) { }
+	~RemoteClient();
 
-private:  int _fd;
-public:  const string address;
+	size_t write(const string&);
+	string read(size_t bytes);
+
+	using Accepted::address;
 };
 
 } // namespace net
-} // namespace ymarcov
 
 #endif

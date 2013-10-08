@@ -3,22 +3,27 @@
 
 #include "remote_client.h"
 
-namespace ymarcov {
-namespace net {
+namespace newnet {
 
-class TcpListener {
-public:
+struct Listener {
+
+	virtual void listen() = 0;
+	virtual Accepted accept() = 0;
+
+	virtual ~Listener() {};
+};
+
+struct TcpListener final : Listener {
 	TcpListener(int port);
 	~TcpListener();
 
-	void listen();
-	pair<int, string> accept();
+	void listen() override;
+	Accepted accept() override;
 
 private:
-	int _fd;
+	const int _fd;
 };
 
 } // namespace net
-} // namespace ymarcov
 
 #endif

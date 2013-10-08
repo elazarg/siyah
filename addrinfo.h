@@ -4,7 +4,6 @@
 #include <netdb.h>
 
 #include <boost/lexical_cast.hpp>
-
 namespace {
 
 struct Addrinfo : addrinfo {
@@ -15,12 +14,7 @@ struct Addrinfo : addrinfo {
 		ai_protocol = IPPROTO_TCP;
 	}
 
-	explicit Addrinfo(int port) {
-		const Addrinfo hints;
-		if (getaddrinfo(nullptr, boost::lexical_cast<string>(port).c_str(), &hints, &result))
-			throw ConnectionError("Failed to resolve host");
-		addrinfo::operator=(*result);
-	}
+	explicit Addrinfo(int port);
 
 	~Addrinfo() {
 		freeaddrinfo(result);
@@ -29,6 +23,15 @@ struct Addrinfo : addrinfo {
 private:
 	addrinfo* result;
 };
+
+const Addrinfo hints;
+
+Addrinfo::Addrinfo(int port) {
+	if (getaddrinfo(nullptr, boost::lexical_cast<string>(port).c_str(), &hints,
+			&result))
+		throw ConnectionError("Failed to resolve host");
+	addrinfo::operator=(*result);
+}
 
 }
 

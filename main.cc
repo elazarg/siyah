@@ -3,8 +3,8 @@
 #include "tcp_listener.h"
 #include "remote_client.h"
 
-using ymarcov::net::TcpListener;
-using ymarcov::net::RemoteClient;
+using newnet::TcpListener;
+using newnet::RemoteClient;
 
 int main(int argc, char** argv) {
 	TcpListener listener(1335);

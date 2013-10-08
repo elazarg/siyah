@@ -3,19 +3,14 @@
 
 #include "remote_client.h"
 
-namespace ymarcov {
-namespace net {
-
-RemoteClient::RemoteClient(std::pair<int, string> fd_address) :
-		_fd{fd_address.first}, address{fd_address.second}
-{ }
+namespace newnet {
 
 RemoteClient::~RemoteClient() {
-	shutdown(_fd, SHUT_RDWR);
+	shutdown(fd, SHUT_RDWR);
 }
 
 size_t RemoteClient::write(const string& data) {
-	auto bytesWritten = ::write(_fd, data.data(), data.size());
+	auto bytesWritten = ::write(fd, data.data(), data.size());
 	if (bytesWritten == -1)
 		throw ConnectionError("Failed to write data to client");
 
@@ -25,7 +20,7 @@ size_t RemoteClient::write(const string& data) {
 string RemoteClient::read(size_t bytes) {
 	unique_ptr<char[]> buffer{new char[bytes]};
 
-	auto bytesRead = ::read(_fd, buffer.get(), bytes);
+	auto bytesRead = ::read(fd, buffer.get(), bytes);
 	if (bytesRead == -1)
 		throw ConnectionError("Failed to read data from client");
 
@@ -33,4 +28,3 @@ string RemoteClient::read(size_t bytes) {
 }
 
 } // namespace net
-} // namespace ymarcov
