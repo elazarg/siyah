@@ -11,8 +11,7 @@ struct Accepted {
 };
 
 struct RemoteClient final : private Accepted {
-	using Accepted::Accepted;
-	RemoteClient(const Accepted& a) : Accepted(a) { }
+	RemoteClient(Accepted a) : Accepted(a) { }
 	~RemoteClient();
 
 	size_t write(const string&);
