@@ -5,7 +5,9 @@
 using std::string;
 
 #include <stdexcept>
-using std::runtime_error;
+struct ConnectionError : std::runtime_error {
+	ConnectionError(string s) : std::runtime_error(s) { };
+};
 
 #include <memory>
 using std::move;

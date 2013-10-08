@@ -26,7 +26,7 @@ size_t RemoteClient::write(const string& data) {
 	auto bytesWritten = ::write(_fd, data.data(), data.size());
 
 	if (bytesWritten == -1)
-		throw runtime_error("Failed to write data to client");
+		throw ConnectionError("Failed to write data to client");
 
 	return bytesWritten;
 }
@@ -37,7 +37,7 @@ string RemoteClient::read(size_t bytes) {
 	auto bytesRead = ::read(_fd, buffer.get(), bytes);
 
 	if (bytesRead == -1)
-		throw runtime_error("Failed to read data from client");
+		throw ConnectionError("Failed to read data from client");
 
 	return string(buffer.get(), bytesRead);
 }
