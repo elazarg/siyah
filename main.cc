@@ -6,15 +6,20 @@
 using newnet::TcpListener;
 using newnet::RemoteClient;
 
+using std::cout;
+using std::endl;
+
 int main(int argc, char** argv) {
-	TcpListener listener(1335);
+	int port = argc > 1 ? std::stoi(argv[1]) : 1335;
+
+	TcpListener listener(port);
 	listener.listen();
 
+	cout << "Listening on port "  << port << endl;
+
 	RemoteClient client { listener.accept() };
-	std::cout << "Client connected: " << client.address << std::endl;
+	cout << "Client connected: " << client.address << endl;
 
-	client.write("Hello!");
-	std::cout << client.read(0x1000) << std::endl;
-
-	return 0;
+	client.write("Hello!\n");
+	cout << client.read(0x1000) << endl;
 }

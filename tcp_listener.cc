@@ -34,7 +34,7 @@ Accepted TcpListener::accept() {
 	if (fd == -1)
 		throw ConnectionError("Failed to accept client socket");
 
-	return Accepted{ fd, inet_ntoa(result.sin_addr) };
+	return { fd, inet_ntoa(result.sin_addr) };
 }
 
 } // namespace net
