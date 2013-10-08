@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
 	listener.listen();
 
 	RemoteClient client { listener.accept() };
-	std::cout << "Client connected: " << client.getAddress() << std::endl;
+	std::cout << "Client connected: " << client.address << std::endl;
 
 	client.write("Hello!");
 	std::cout << client.read(0x1000) << std::endl;

@@ -17,7 +17,7 @@ public:
   string read(size_t bytes);
 
 private:  int _fd;
-private:  string _address;
+public:  const string address;
 };
 
 } // namespace net
